@@ -42,6 +42,14 @@ function obterElementos() {
     return elementosCache;
 }
 
+function verificarConteudo() {
+    const { textoElem } = obterElementos();
+    if (textoElem.innerText.trim() === '') {
+        textoElem.querySelector('.placeholder').style.display = 'block';
+    } else {
+        textoElem.querySelector('.placeholder').style.display = 'none';
+    }
+}
 
 function processar(tipoOperacao) {
     const { textoElem, mensagemResultadoElem, btnCopy, digiteMensagem } = obterElementos();
