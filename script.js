@@ -12,7 +12,7 @@ const regrasSubstituicaoDescripto = Object.fromEntries(
 
 /**
  * Cria uma expressão regular para busca e substituição de texto
- * @param {Object} regras - Regras de substituição
+ * @param {Object} regras - Regras de substituição 
  * @returns {RegExp} - Expressão regular para substituição
  */
 function criarExpressaoRegular(regras) {
