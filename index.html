@@ -15,28 +15,33 @@
         <h1>Decodificador de Texto Alura+Oracle</h1>
     </header>
     
-
-    <div class="container-wrapper">  
-        <div class="container">
+    <main class="container-wrapper">
+        <section class="container">  
             <div id="texto" class="texto-editavel" contenteditable="true" oninput="verificarConteudo()" role="textbox" aria-multiline="true" aria-label="Área de texto para digitar">
                 <span class="placeholder">Digite seu texto</span>
-            </div>            
-            <div class="buttons">
+            </div>
+
+            <section class="alert-container">
+                <div class="alert-icon"></div>
+                <div class="alert-message">Apenas letras minúsculas e sem acento.</div>
+            </section>
+
+            <section class="buttons">
                 <button id="btn-cript" class="btn-1" onclick="processar('criptografar')">Criptografar</button>
                 <button id="btn-descript" class="btn-2" onclick="processar('descriptografar')">Descriptografar</button>
-            </div>
-        </div> 
-        <div class="container-resultado">
+            </section>            
+        </section>
+
+        <section class="container-resultado">
             <div class="resultado">
                 <img id="imagem1" src="assets/Imagem-1.svg" alt="imagem alura menina procurando com lupa">
                 <p id="digiteMensagem">Nenhuma mensagem encontrada.</p>
                 <p id="mensagemResultado">Digite um texto que você deseja criptografar ou descriptografar.</p>
                 <button id="btn-copy" class="btn-copy" onclick="copiarTexto()">Copiar</button>
             </div>
-        </div>
-    </div>  
-
+        </section>
+    </main>
  
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

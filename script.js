@@ -53,16 +53,12 @@ function verificarConteudo() {
 
 function processar(tipoOperacao) {
     const { textoElem, mensagemResultadoElem, btnCopy, digiteMensagem } = obterElementos();
-
-    // verifica se os elementos necessarios foram encontrados
     if (!textoElem || !mensagemResultadoElem || !btnCopy || !digiteMensagem) {
         console.error("Elementos necessários não encontrados no DOM.");
         return;
     }
 
     const texto = textoElem.innerText.trim();
-
-    // se não houver texto, atualiza a interface
     if (!texto) {
         mensagemResultadoElem.textContent = "";
         digiteMensagem.style.display = "block";
@@ -75,45 +71,55 @@ function processar(tipoOperacao) {
         descriptografar: () => descriptografar(texto)
     };
 
-    // verifica se a operaçao é valida
     if (!operacoes[tipoOperacao]) {
         console.error("Operação inválida");
         return;
     }
 
-    // atualiza com o resultado
     mensagemResultadoElem.textContent = operacoes[tipoOperacao]();
     digiteMensagem.style.display = "none";
     btnCopy.classList.add("visible");
 }
 
-// mensagem de feedback para o usuário
+let feedbackTimeout;
+
 function mostrarFeedback(mensagem, tipo = '') {
+    if (feedbackTimeout) {
+        clearTimeout(feedbackTimeout);
+        const oldFeedbackElem = document.querySelector(".feedback");
+        if (oldFeedbackElem) oldFeedbackElem.remove();
+    }
+    
     const feedbackElem = document.createElement('div');
     feedbackElem.textContent = mensagem;
     feedbackElem.className = `feedback ${tipo}`;
     document.body.appendChild(feedbackElem);
-    // remove após 2 segundos
-    setTimeout(() => feedbackElem.remove(), 2000);
+    
+    feedbackTimeout = setTimeout(() => feedbackElem.remove(), 2000);
 }
 
 function copiarTexto() {
     const resultadoElem = document.querySelector("#mensagemResultado");
-    const resultado = resultadoElem.textContent;
+    const resultado = resultadoElem?.textContent;
 
-    if (resultado) {
-        navigator.clipboard.writeText(resultado)
-            .then(() => mostrarFeedback("Texto copiado para a área de transferência!"))
-            .catch(err => {
-                console.error('Erro ao copiar texto: ', err);
-                mostrarFeedback("Erro ao copiar texto!", 'error');
-            });
-    } else {
-        mostrarFeedback("Nenhum texto para copiar.", 'warning');
+    if (!resultado) {
+        return mostrarFeedback("Nenhum texto para copiar.", 'warning');
     }
+
+    navigator.clipboard.writeText(resultado)
+        .then(() => mostrarFeedback("Texto copiado para a área de transferência!"))
+        .catch(err => {
+            console.error('Erro ao copiar texto: ', err);
+            mostrarFeedback("Erro ao copiar texto!", 'error');
+        });
 }
 
+let eventosInicializados = false;
+
 function inicializarEventos() {
+    if (eventosInicializados) return;
+    eventosInicializados = true;
+    
     document.querySelector("#btn-descript").addEventListener("click", () => processar("descriptografar"));
     document.querySelector("#btn-cript").addEventListener("click", () => processar("criptografar"));
     document.querySelector("#btn-copy").addEventListener("click", copiarTexto);
