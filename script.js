@@ -60,13 +60,8 @@ function obterElementosDOM() {
     return cacheElementosDOM;
 }
 
-/**
- * Valida e ajusta o texto, removendo caracteres inválidos e truncando conforme necessário
- * @param {string} texto - Texto a ser validado
- * @returns {string} - Texto validado e truncado
- */
 function validarETruncarTexto(texto) {
-    return texto.toLowerCase().replace(/[^a-z]/g, '');
+    return texto.toLowerCase().replace(/[^a-z\s]/g, '');
 }
 
 function verificarTamanhoTexto() {
