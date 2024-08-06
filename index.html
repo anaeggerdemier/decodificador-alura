@@ -17,27 +17,26 @@
     
     <main class="container-wrapper">
         <section class="container">  
-            <div id="texto" class="texto-editavel" contenteditable="true" oninput="verificarConteudo()" role="textbox" aria-multiline="true" aria-label="Área de texto para digitar">
-                <span class="placeholder">Digite seu texto</span>
-            </div>
-
-            <section class="alert-container">
-                <div class="alert-icon"></div>
-                <div class="alert-message">Apenas letras minúsculas e sem acento.</div>
-            </section>
-
-            <section class="buttons">
-                <button id="btn-cript" class="btn-1" onclick="processar('criptografar')">Criptografar</button>
-                <button id="btn-descript" class="btn-2" onclick="processar('descriptografar')">Descriptografar</button>
-            </section>            
+            <textarea id="texto" class="texto-editavel" placeholder="Digite seu texto" data-limit="200"></textarea>
+            <section class="actions-container">
+                <div class="alert-container">
+                    <div class="alert-icon"></div>
+                    <div class="alert-message">Apenas letras minúsculas e sem acento.</div>
+                </div>
+    
+                <div class="buttons-container">
+                    <button id="btn-cript" class="btn-1">Criptografar</button>
+                    <button id="btn-descript" class="btn-2">Descriptografar</button>
+                </div>
+    
+            </section>  
         </section>
-
         <section class="container-resultado">
             <div class="resultado">
                 <img id="imagem1" src="assets/Imagem-1.svg" alt="imagem alura menina procurando com lupa">
                 <p id="digiteMensagem">Nenhuma mensagem encontrada.</p>
                 <p id="mensagemResultado">Digite um texto que você deseja criptografar ou descriptografar.</p>
-                <button id="btn-copy" class="btn-copy" onclick="copiarTexto()">Copiar</button>
+                <button id="btn-copy" class="btn-copy">Copiar</button>
             </div>
         </section>
     </main>
