@@ -38,6 +38,7 @@ function obterElementosDOM() {
             mensagemResultadoElemento: document.querySelector("#mensagemResultado"),
             botaoCopiar: document.querySelector("#btn-copy"),
             mensagemInput: document.querySelector("#digiteMensagem"),
+            imagemElemento: document.querySelector("#imagem1"),
         };
     }
     return cacheElementosDOM;
@@ -61,8 +62,8 @@ function verificarTamanhoTexto() {
 }
 
 function processarOperacao(tipoOperacao) {
-    const { textoElemento, mensagemResultadoElemento, botaoCopiar, mensagemInput } = obterElementosDOM();
-    if (!textoElemento || !mensagemResultadoElemento || !botaoCopiar || !mensagemInput) {
+    const { textoElemento, mensagemResultadoElemento, botaoCopiar, mensagemInput, imagemElemento } = obterElementosDOM();
+    if (!textoElemento || !mensagemResultadoElemento || !botaoCopiar || !mensagemInput || !imagemElemento) {
         console.error("Elementos necessários não encontrados no DOM.");
         return;
     }
@@ -72,14 +73,26 @@ function processarOperacao(tipoOperacao) {
         mensagemResultadoElemento.textContent = "";
         mensagemInput.style.display = "block";
         botaoCopiar.classList.remove("visible");
+        imagemElemento.classList.remove("hidden");
+        imagemElemento.classList.add("visible");
         return;
     }
 
     const resultado = tipoOperacao === "criptografar" ? criptografarTexto(texto) : descriptografarTexto(texto);
 
     mensagemResultadoElemento.textContent = resultado;
-    mensagemInput.style.display = "none";
-    botaoCopiar.classList.add("visible");
+
+    if (resultado) {
+        mensagemInput.style.display = "none";
+        botaoCopiar.classList.add("visible");
+        imagemElemento.classList.remove("visible");
+        imagemElemento.classList.add("hidden");
+    } else {
+        mensagemInput.style.display = "block";
+        botaoCopiar.classList.remove("visible");
+        imagemElemento.classList.remove("hidden");
+        imagemElemento.classList.add("visible");
+    }
 }
 
 let timeoutFeedback;
