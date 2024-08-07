@@ -14,8 +14,7 @@ const regexCripto = criarExpressaoRegular(regrasSubstituicaoCripto);
 const regexDescripto = criarExpressaoRegular(regrasSubstituicaoDescripto);
 
 function criarExpressaoRegular(regras) {
-    const chavesOrdenadas = Object.keys(regras).sort((a, b) => b.length - a.length);
-    return new RegExp(chavesOrdenadas.join('|'), 'g');
+    return new RegExp(Object.keys(regras).join('|'), 'g');
 }
 
 function substituirTexto(texto, regras, regex) {
@@ -97,7 +96,7 @@ function mostrarMensagemFeedback(mensagem, tipo = '') {
     elementoFeedback.className = `feedback ${tipo}`;
     document.body.appendChild(elementoFeedback);
 
-    timeoutFeedback = setTimeout(() => elementoFeedback.remove(), 2000);
+    timeoutFeedback = setTimeout(() => elementoFeedback.remove(), 3000);
 }
 
 function copiarTextoParaAreaTransferencia() {
