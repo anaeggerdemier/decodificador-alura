@@ -10,44 +10,28 @@ const regrasSubstituicaoDescripto = Object.fromEntries(
     Object.entries(regrasSubstituicaoCripto).map(([chave, valor]) => [valor, chave])
 );
 
-/**
- * Cria uma expressão regular para busca e substituição de texto
- * @param {Object} regras - Regras de substituição 
- * @returns {RegExp} - Expressão regular para substituição
- */
+const regexCripto = criarExpressaoRegular(regrasSubstituicaoCripto);
+const regexDescripto = criarExpressaoRegular(regrasSubstituicaoDescripto);
+
 function criarExpressaoRegular(regras) {
     const chavesOrdenadas = Object.keys(regras).sort((a, b) => b.length - a.length);
     return new RegExp(chavesOrdenadas.join('|'), 'g');
 }
 
-const regexCripto = criarExpressaoRegular(regrasSubstituicaoCripto);
-const regexDescripto = criarExpressaoRegular(regrasSubstituicaoDescripto);
+function substituirTexto(texto, regras, regex) {
+    return texto.replace(regex, seq => regras[seq] || seq);
+}
 
-/**
- * Criptografa um texto substituindo caracteres conforme as regras
- * @param {string} texto - Texto a ser criptografado
- * @returns {string} - Texto criptografado
- */
 function criptografarTexto(texto) {
-    return texto.toLowerCase().replace(/[eiaou]/g, char => regrasSubstituicaoCripto[char] || char);
+    return substituirTexto(texto.toLowerCase(), regrasSubstituicaoCripto, /[eiaou]/g);
 }
 
-/**
- * Descriptografa um texto substituindo sequências conforme as regras
- * @param {string} textoCripto - Texto criptografado
- * @returns {string} - Texto descriptografado
- */
 function descriptografarTexto(textoCripto) {
-    return textoCripto.toLowerCase().replace(regexDescripto, seq => regrasSubstituicaoDescripto[seq] || seq);
+    return substituirTexto(textoCripto.toLowerCase(), regrasSubstituicaoDescripto, regexDescripto);
 }
-
 
 let cacheElementosDOM = {};
 
-/**
- * Obtém os elementos do DOM e utiliza cache para evitar múltiplas consultas.
- * @returns {Object} - Elementos do DOM
- */
 function obterElementosDOM() {
     if (!cacheElementosDOM.textoElemento) {
         cacheElementosDOM = {
@@ -77,10 +61,6 @@ function verificarTamanhoTexto() {
     textoElemento.value = texto;
 }
 
-/**
- * Processa a criptografia ou descriptografia com base no tipo de operação
- * @param {string} tipoOperacao - Tipo de operação ("criptografar" ou "descriptografar")
- */
 function processarOperacao(tipoOperacao) {
     const { textoElemento, mensagemResultadoElemento, botaoCopiar, mensagemInput } = obterElementosDOM();
     if (!textoElemento || !mensagemResultadoElemento || !botaoCopiar || !mensagemInput) {
@@ -96,46 +76,33 @@ function processarOperacao(tipoOperacao) {
         return;
     }
 
-    const operacoes = {
-        criptografar: () => criptografarTexto(texto),
-        descriptografar: () => descriptografarTexto(texto)
-    };
+    const resultado = tipoOperacao === "criptografar" ? criptografarTexto(texto) : descriptografarTexto(texto);
 
-    if (!operacoes[tipoOperacao]) {
-        console.error("Operação inválida");
-        return;
-    }
-
-    mensagemResultadoElemento.textContent = operacoes[tipoOperacao]();
+    mensagemResultadoElemento.textContent = resultado;
     mensagemInput.style.display = "none";
     botaoCopiar.classList.add("visible");
 }
 
 let timeoutFeedback;
 
-/**
- * Exibe uma mensagem de feedback para o usuário
- * @param {string} mensagem - Mensagem a ser exibida
- * @param {string} tipo - Tipo de feedback ('', 'warning' ou 'error')
- */
 function mostrarMensagemFeedback(mensagem, tipo = '') {
     if (timeoutFeedback) {
         clearTimeout(timeoutFeedback);
         const elementoFeedbackAntigo = document.querySelector(".feedback");
         if (elementoFeedbackAntigo) elementoFeedbackAntigo.remove();
     }
-    
+
     const elementoFeedback = document.createElement('div');
     elementoFeedback.textContent = mensagem;
     elementoFeedback.className = `feedback ${tipo}`;
     document.body.appendChild(elementoFeedback);
-    
+
     timeoutFeedback = setTimeout(() => elementoFeedback.remove(), 2000);
 }
 
 function copiarTextoParaAreaTransferencia() {
-    const resultadoElemento = document.querySelector("#mensagemResultado");
-    const resultado = resultadoElemento?.textContent;
+    const { mensagemResultadoElemento } = obterElementosDOM();
+    const resultado = mensagemResultadoElemento?.textContent;
 
     if (!resultado) {
         return mostrarMensagemFeedback("Nenhum texto para copiar.", 'warning');
@@ -154,11 +121,12 @@ let eventosConfigurados = false;
 function configurarEventos() {
     if (eventosConfigurados) return;
     eventosConfigurados = true;
-    
+
+    const { textoElemento, botaoCopiar } = obterElementosDOM();
     document.querySelector("#btn-descript").addEventListener("click", () => processarOperacao("descriptografar"));
     document.querySelector("#btn-cript").addEventListener("click", () => processarOperacao("criptografar"));
-    document.querySelector("#btn-copy").addEventListener("click", copiarTextoParaAreaTransferencia);
-    document.querySelector("#texto").addEventListener("input", verificarTamanhoTexto);
+    botaoCopiar.addEventListener("click", copiarTextoParaAreaTransferencia);
+    textoElemento.addEventListener("input", verificarTamanhoTexto);
 }
 
 document.addEventListener("DOMContentLoaded", configurarEventos);
