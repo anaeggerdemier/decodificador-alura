@@ -128,4 +128,9 @@ function configurarEventos() {
     textoElemento.addEventListener("input", verificarTamanhoTexto);
 }
 
+function autoResizeTextEdit(textarea) {
+    textarea.style.height = 'auto'; 
+    textarea.style.height = (textarea.scrollHeight + 96) + 'px'; 
+}
+
 document.addEventListener("DOMContentLoaded", configurarEventos);

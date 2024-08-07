@@ -17,7 +17,7 @@
     
     <main class="container-wrapper">
         <section class="container">  
-            <textarea id="texto" class="texto-editavel" placeholder="Digite seu texto" data-limit="200"></textarea>
+            <textarea id="texto" class="texto-editavel" placeholder="Digite seu texto" data-limit="200" oninput="autoResizeTextEdit(this)"></textarea>
             <section class="actions-container">
                 <div class="alert-container">
                     <div class="alert-icon" aria-hidden="true"></div>
@@ -34,7 +34,7 @@
         <section class="container-resultado">
             <div class="resultado">
                 <img id="imagem1" src="assets/Imagem-1.svg" alt="Imagem vetorial de uma menina procurando com uma lupa, representando a busca de informações, desenvolvida pela Alura">
-                <p id="digiteMensagem">Nenhuma mensagem encontrada.</p>
+                <p id="digiteMensagem">Nenhuma mensagem encontrada</p>
                 <p id="mensagemResultado">Digite um texto que você deseja criptografar ou descriptografar.</p>
                 <button id="btn-copy" class="btn-copy">Copiar</button>
             </div>
