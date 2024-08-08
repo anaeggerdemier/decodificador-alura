@@ -10,7 +10,6 @@ const regrasSubstituicaoDescripto = Object.fromEntries(
     Object.entries(regrasSubstituicaoCripto).map(([chave, valor]) => [valor, chave])
 );
 
-const regexCripto = criarExpressaoRegular(regrasSubstituicaoCripto);
 const regexDescripto = criarExpressaoRegular(regrasSubstituicaoDescripto);
 
 function criarExpressaoRegular(regras) {
