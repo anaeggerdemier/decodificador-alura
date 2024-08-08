@@ -2,7 +2,7 @@
 
 ## Descrição
 
-O Decodificador de Texto Alura+Oracle é um aplicativo web para criptografar e descriptografar textos usando regras específicas. Ele utiliza substituições de caracteres para transformar o texto de forma criptografada e reverter o processo para o texto original.
+O Decodificador de Texto Alura+Oracle é um aplicativo web que permite criptografar e descriptografar textos utilizando um conjunto específico de regras de substituição de caracteres. Este projeto facilita a transformação de textos em uma forma criptografada e a sua reversão ao formato original.
 
 ## Funcionalidades
 
@@ -11,7 +11,9 @@ O Decodificador de Texto Alura+Oracle é um aplicativo web para criptografar e d
 - Validação de Texto: Garante que apenas letras minúsculas e sem acento sejam usadas.
 - Copiar para Área de Transferência: Permite copiar o texto criptografado/descriptografado para a área de transferência.
 - Feedback ao Usuário: Mostra mensagens de alerta e feedback conforme necessário.
-- ## Tecnologias
+
+ ## Tecnologias
+ 
 - HTML5: Estruturação da página.
 - CSS3: Estilo e layout responsivo.
 - JavaScript: Lógica de criptografia/descriptografia e manipulação DOM.
