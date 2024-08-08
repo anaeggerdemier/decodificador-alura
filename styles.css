@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-
 :root {
     /* cores escuras (dark blue) */
     --dark-blue-100: #609ED4; 
@@ -23,7 +21,7 @@
     --gray-500: #343A40;
     
     /* fonte padrão */
-    --default-font-family: 'Inter', sans-serif;
+    --default-font-family: 'Inter', Arial, sans-serif;
 }
 
 html, body {
@@ -76,13 +74,14 @@ h1 {
 
 .container-resultado {
     display: flex;
+    justify-content: flex-end;
     flex-direction: column;
-    row-gap: 1rem;
+    gap: 1rem;
     align-items: center;
     width: 90%;
     max-width: 25rem;
     height: auto;
-    max-height: 90vh;
+    max-height: 100vh;
     padding: 1.5rem;
     background-color: white;
     color: #333;
