@@ -84,9 +84,9 @@ h1 {
     max-height: 100vh;
     padding: 1.5rem;
     background-color: white;
-    color: #333;
+    color: var(--gray-500);
     border-radius: 2rem;
-    box-shadow: 0 0 12px var(--gray-100);
+    box-shadow: 0 0 12px var(--gray-200);
     overflow: hidden;
     text-align: center;
     transition: transform 0.3s ease-in-out;
@@ -155,8 +155,8 @@ button {
 }
 
 button:hover {
-    background-color: var(--light-blue-100);
-    color: var(--dark-blue-300);
+    color: var(--light-blue-400);
+    transform: scale(1.05);
 }
 
 button.btn-1 {
