@@ -13,7 +13,8 @@ const regrasSubstituicaoDescripto = Object.fromEntries(
 const regexDescripto = criarExpressaoRegular(regrasSubstituicaoDescripto);
 
 function criarExpressaoRegular(regras) {
-    return new RegExp(Object.keys(regras).join('|'), 'g');
+    const substituicoesOrdenadas = Object.keys(regras).sort((a, b) => b.length - a.length);
+    return new RegExp(substituicoesOrdenadas.join('|'), 'g');
 }
 
 function substituirTexto(texto, regras, regex) {
@@ -165,7 +166,7 @@ function configurarEventos() {
 
 function autoResizeTextEdit(textarea) {
     textarea.style.height = 'auto'; 
-    textarea.style.height = (textarea.scrollHeight + 96) + 'px'; 
+    textarea.style.height = (textarea.scrollHeight + 16) + 'px'; 
 }
 
 document.addEventListener("DOMContentLoaded", configurarEventos);
