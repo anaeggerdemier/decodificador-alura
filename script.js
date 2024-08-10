@@ -31,7 +31,7 @@ function descriptografarTexto(textoCripto) {
 let cacheElementosDOM = {};
 
 function obterElementosDOM() {
-    if (!cacheElementosDOM.textoElemento) {
+    if (!cacheElementosDOM.textoElemento || !document.body.contains(cacheElementosDOM.textoElemento)) {
         cacheElementosDOM = {
             textoElemento: document.querySelector("#texto"),
             mensagemResultadoElemento: document.querySelector("#mensagemResultado"),
@@ -60,26 +60,46 @@ function verificarTamanhoTexto() {
     textoElemento.value = texto;
 }
 
+function limparFormulario() {
+    const { textoElemento, mensagemResultadoElemento, mensagemInput, botaoCopiar, imagemElemento } = obterElementosDOM();
+
+    if (textoElemento) textoElemento.value = '';
+    if (mensagemResultadoElemento) mensagemResultadoElemento.textContent = '';
+    if (mensagemInput) mensagemInput.style.display = 'block';
+    if (botaoCopiar) botaoCopiar.classList.remove('visible');
+    if (imagemElemento) {
+        imagemElemento.classList.remove('hidden');
+        imagemElemento.classList.add('visible');
+    }
+}
+
 function processarOperacao(tipoOperacao) {
     const { textoElemento, mensagemResultadoElemento, botaoCopiar, mensagemInput, imagemElemento } = obterElementosDOM();
+
     if (!textoElemento || !mensagemResultadoElemento || !botaoCopiar || !mensagemInput || !imagemElemento) {
         console.error("Elementos necessários não encontrados no DOM.");
         return;
     }
 
     const texto = validarETruncarTexto(textoElemento.value.trim());
+
     if (!texto) {
-        mensagemResultadoElemento.textContent = "";
-        mensagemInput.style.display = "block";
-        botaoCopiar.classList.remove("visible");
-        imagemElemento.classList.remove("hidden");
-        imagemElemento.classList.add("visible");
+        limparFormulario(); 
         return;
     }
+
+    const botaoCript = document.querySelector("#btn-cript");
+    const botaoDescript = document.querySelector("#btn-descript");
+    botaoCript.disabled = botaoDescript.disabled = true;
+    botaoCript.textContent = botaoDescript.textContent = "Processando...";
 
     const resultado = tipoOperacao === "criptografar" ? criptografarTexto(texto) : descriptografarTexto(texto);
 
     mensagemResultadoElemento.textContent = resultado;
+
+    botaoCript.disabled = botaoDescript.disabled = false;
+    botaoCript.textContent = "Criptografar";
+    botaoDescript.textContent = "Descriptografar";
 
     if (resultado) {
         mensagemInput.style.display = "none";
@@ -87,10 +107,7 @@ function processarOperacao(tipoOperacao) {
         imagemElemento.classList.remove("visible");
         imagemElemento.classList.add("hidden");
     } else {
-        mensagemInput.style.display = "block";
-        botaoCopiar.classList.remove("visible");
-        imagemElemento.classList.remove("hidden");
-        imagemElemento.classList.add("visible");
+        limparFormulario();
     }
 }
 
@@ -99,9 +116,10 @@ let timeoutFeedback;
 function mostrarMensagemFeedback(mensagem, tipo = '') {
     if (timeoutFeedback) {
         clearTimeout(timeoutFeedback);
-        const elementoFeedbackAntigo = document.querySelector(".feedback");
-        if (elementoFeedbackAntigo) elementoFeedbackAntigo.remove();
     }
+
+    const elementoFeedbackAntigo = document.querySelector(".feedback");
+    if (elementoFeedbackAntigo) elementoFeedbackAntigo.remove();
 
     const elementoFeedback = document.createElement('div');
     elementoFeedback.textContent = mensagem;
@@ -134,6 +152,11 @@ function configurarEventos() {
     eventosConfigurados = true;
 
     const { textoElemento, botaoCopiar } = obterElementosDOM();
+
+    textoElemento.addEventListener("input", function() {
+        autoResizeTextEdit(textoElemento);
+    });
+
     document.querySelector("#btn-descript").addEventListener("click", () => processarOperacao("descriptografar"));
     document.querySelector("#btn-cript").addEventListener("click", () => processarOperacao("criptografar"));
     botaoCopiar.addEventListener("click", copiarTextoParaAreaTransferencia);

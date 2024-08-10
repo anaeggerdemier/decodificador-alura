@@ -159,6 +159,10 @@ button:hover {
     transform: scale(1.05);
 }
 
+button:focus {
+    outline: 2px solid var(--dark-blue-300);
+}
+
 button.btn-1 {
     background-color: var(--dark-blue-300); 
     color: var(--light-blue-100) 
@@ -267,6 +271,17 @@ button.btn-copy.visible {
 #imagem1.hidden {
     display: none;
     opacity: 0;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {

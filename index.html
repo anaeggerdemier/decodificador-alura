@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Decodificador de Texto</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="font" type="font/woff2" crossorigin="anonymous">
     <meta name="description" content="Aplicativo para criptografar e descriptografar textos com regras específicas definidas pela Alura+Oracle como requisito para conclusão do curso">
+    <meta property="og:description" content="Aplicativo para criptografar e descriptografar textos com regras específicas definidas pela Alura+Oracle como requisito para conclusão do curso">
+    <meta property="og:title" content="Decodificador de Texto Alura+Oracle">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;">
 </head>
 <body>
     <header>
@@ -18,7 +21,7 @@
     
     <main class="container-wrapper">
         <section class="container">  
-            
+            <label for="texto" class="sr-only">Digite o texto que deseja criptografar ou descriptografar:</label>
             <textarea id="texto" class="texto-editavel" placeholder="Digite seu texto" data-limit="200" oninput="autoResizeTextEdit(this)"></textarea>
             <section class="actions-container">
                 <div class="alert-container">
@@ -27,8 +30,8 @@
                 </div>
     
                 <div class="buttons-container">
-                    <button id="btn-cript" class="btn-1">Criptografar</button>
-                    <button id="btn-descript" class="btn-2">Descriptografar</button>
+                    <button id="btn-cript" class="btn-1" type="button">Criptografar</button>
+                    <button id="btn-descript" class="btn-2" type="button">Descriptografar</button>
                 </div>
             </section>  
         </section>
@@ -37,8 +40,8 @@
             <div class="resultado">
                 <img id="imagem1" src="assets/Imagem-1.svg" alt="Imagem vetorial de uma menina procurando com uma lupa, representando a busca de informações, desenvolvida pela Alura">
                 <p id="digiteMensagem">Nenhuma mensagem encontrada</p>
-                <p id="mensagemResultado">Digite um texto que você deseja criptografar ou descriptografar.</p>
-                <button id="btn-copy" class="btn-copy">Copiar</button>
+                <p id="mensagemResultado" aria-live="polite">Digite um texto que você deseja criptografar ou descriptografar.</p>
+                <button id="btn-copy" class="btn-copy" type="button">Copiar</button>
             </div>
         </section>
     </main>
